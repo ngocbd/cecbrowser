@@ -9,9 +9,9 @@ Post content will publish at website CEC Website https://cec.net.vn
 THis project build with Java , chromedriver and Selenium
 
 ### Prerequisites
-Download and install Google Chrome .
-Download chromedriver http://chromedriver.chromium.org/downloads .
-Create and download service account key https://console.cloud.google.com/iam-admin/serviceaccounts 
+-	Download and install Google Chrome .
+-	Download chromedriver http://chromedriver.chromium.org/downloads .
+-	Create and download service account key https://console.cloud.google.com/iam-admin/serviceaccounts 
 
 ### Installing
 
