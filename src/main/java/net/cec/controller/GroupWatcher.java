@@ -17,7 +17,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import net.cec.Secret;
 
-public class GroupWatcher {
+public class GroupWatcher  extends Thread{
 	static List<String> listURL = new ArrayList<>();
 	
 	public static void main(String[] args) {
