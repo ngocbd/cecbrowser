@@ -46,10 +46,6 @@ export GOOGLE_APPLICATION_CREDENTIALS=PATH/TO/JSON/FILE
 
 Test with gradle test
 
-### Break down into end to end tests
-
-Explain what these tests test and why
-
 ```
 $ gradle clean test
 ```
