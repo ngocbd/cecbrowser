@@ -1,3 +1,4 @@
+package net.cec;
 
 
 import java.io.IOException;
@@ -22,8 +23,6 @@ import com.google.protobuf.ByteString;
 import com.google.pubsub.v1.ProjectTopicName;
 import com.google.pubsub.v1.PubsubMessage;
 import com.googlecode.objectify.*;
-
-import net.cec.Member;
 
 public class Main {
 
