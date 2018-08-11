@@ -1,7 +1,8 @@
 # Crazy English Community Facebook Browser
 
-This Project is a browserbased crawler to getting Post from member of cec facebook group (https://www.facebook.com/groups/cec.edu.vn/).
-Post content will publish at website CEC Website https://cec.net.vn
+-	This Project is a browserbased crawler to getting Post from member of cec facebook group (https://www.facebook.com/groups/cec.edu.vn/).
+
+-	Post content will publish at website CEC Website https://cec.net.vn
 
 
 ## Getting Started
