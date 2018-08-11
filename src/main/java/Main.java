@@ -1,7 +1,11 @@
 
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.LinkedBlockingQueue;
 
 import org.openqa.selenium.By;
@@ -11,7 +15,15 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import com.google.api.core.ApiFuture;
+import com.google.api.core.ApiFutures;
+import com.google.cloud.pubsub.v1.Publisher;
+import com.google.protobuf.ByteString;
+import com.google.pubsub.v1.ProjectTopicName;
+import com.google.pubsub.v1.PubsubMessage;
 import com.googlecode.objectify.*;
+
+import net.cec.Member;
 
 public class Main {
 
@@ -72,23 +84,78 @@ public class Main {
 //				e.printStackTrace();
 //			}
 //	    }
-	   Member m = new Member();
-	   m.setUsername("aaaa");
-	   m.setPassword("bbbb");
-	   ObjectifyService.init();
-	   ObjectifyService.register(Member.class);
-	   Key<Member> key =  ObjectifyService.run(new Work<Key<Member>>() {
-
-			@Override
-			public Key<Member> run() {
-				
-				return  ObjectifyService.ofy().save().entity(m).now();
-			}
-            
-           
-        });
-	   System.out.println(key.getName());
+//	   Member m = new Member();
+//	   m.setUsername("aaaa");
+//	   m.setPassword("bbbb");
+//	   ObjectifyService.init();
+//	   ObjectifyService.register(Member.class);
+//	   
+//	   Key<Member> key =  ObjectifyService.run(new Work<Key<Member>>() {
+//
+//			@Override
+//			public Key<Member> run() {
+//				
+//				return  ObjectifyService.ofy().save().entity(m).now();
+//			}
+//            
+//           
+//        });
+//	   System.out.println(key.getName());
 	    //timestampContent
+		
+		String topicName = "projects/crazy-english-community/topics/post";
+		ProjectTopicName topic = ProjectTopicName.of("crazy-english-community", topicName);
+		
+		List<ApiFuture<String>> messageIdFutures = new ArrayList<>();
+		 Publisher publisher = null;
+	    try {
+	      // Create a publisher instance with default settings bound to the topic
+	      try {
+			publisher = Publisher.newBuilder(topicName).build();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	      List<String> messages = Arrays.asList("first message", "second message");
+
+	      // schedule publishing one message at a time : messages get automatically batched
+	      for (String message : messages) {
+	        ByteString data = ByteString.copyFromUtf8(message);
+	        PubsubMessage pubsubMessage = PubsubMessage.newBuilder().setData(data).build();
+
+	        // Once published, returns a server-assigned message id (unique within the topic)
+	        ApiFuture<String> messageIdFuture = publisher.publish(pubsubMessage);
+	        messageIdFutures.add(messageIdFuture);
+	      }
+	    } finally {
+	      // wait on any pending publish requests.
+	      List<String> messageIds ;
+		try {
+			messageIds = ApiFutures.allAsList(messageIdFutures).get();
+			 for (String messageId : messageIds) {
+			        System.out.println("published with message ID: " + messageId);
+			      }
+
+			      if (publisher != null) {
+			        // When finished with the publisher, shutdown to free up resources.
+			        try {
+						publisher.shutdown();
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+			      }
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ExecutionException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	     
+	    }
 	    
 	    
 	}
