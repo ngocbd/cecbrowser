@@ -13,8 +13,7 @@ public class PostFB {
 	private String url;
 	@Index
 	private String posterID;
-	@Index
-	private DataFB dataFB;
+	
 	@Index
 	private List<String> likes;
 	@Index
@@ -26,10 +25,7 @@ public class PostFB {
 	public PostFB(String posterID){
 		this.id=System.currentTimeMillis();
 		this.posterID=posterID;
-		dataFB = new DataFB();
-		dataFB.setLike(0);
-		dataFB.setPost(0);
-		dataFB.setShares(0);
+		
 	}
 	
 	public long getId() {
@@ -50,12 +46,7 @@ public class PostFB {
 	public void setPosterID(String posterID) {
 		this.posterID = posterID;
 	}
-	public DataFB getDataFB() {
-		return dataFB;
-	}
-	public void setDataFB(DataFB dataFB) {
-		this.dataFB = dataFB;
-	}
+	
 	public List<String> getLikes() {
 		return likes;
 	}
