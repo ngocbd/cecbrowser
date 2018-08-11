@@ -8,7 +8,7 @@ import com.googlecode.objectify.annotation.Index;
 public class Member {
 	@Id
 	private String  id;
-	@Index
+	
 	private String avatar;
 	@Index
 	private long birthday;
@@ -20,11 +20,9 @@ public class Member {
 	private String name;
 	@Index
 	private String realName;
-	@Index
-	private DataFB dataFB;
-	@Index
+
 	private int status;
-	@Index
+	
 	private long balance;
 	
 	
@@ -33,12 +31,6 @@ public class Member {
 		this.status=0;
 		this.balance=0;
 		
-		// set data
-		this.dataFB = new DataFB();
-		this.dataFB.setComment(0);
-		this.dataFB.setLike(0);
-		this.dataFB.setPost(0);
-		this.dataFB.setShares(0);
 		
 		
 	}
@@ -130,14 +122,7 @@ public class Member {
 	}
 
 
-	public DataFB getDataFB() {
-		return dataFB;
-	}
-
-
-	public void setDataFB(DataFB dataFB) {
-		this.dataFB = dataFB;
-	}
+	
 
 
 	public int getStatus() {

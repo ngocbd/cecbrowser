@@ -1,10 +1,7 @@
 package com.fcs;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
@@ -13,7 +10,6 @@ import com.google.cloud.bigquery.BigQueryOptions;
 import com.google.cloud.bigquery.Dataset;
 import com.google.cloud.bigquery.DatasetInfo;
 import com.google.cloud.bigquery.Field;
-import com.google.cloud.bigquery.FieldValue;
 import com.google.cloud.bigquery.FieldValueList;
 import com.google.cloud.bigquery.InsertAllRequest;
 import com.google.cloud.bigquery.InsertAllRequest.RowToInsert;
@@ -26,8 +22,6 @@ import com.google.cloud.bigquery.TableDefinition;
 import com.google.cloud.bigquery.TableId;
 import com.google.cloud.bigquery.TableInfo;
 import com.google.cloud.bigquery.TableResult;
-
-import net.cec.Member;
 
 public class Querify {
 
@@ -166,10 +160,7 @@ public class Querify {
 
 	public static void main(String[] args) {
 
-		Member m = new Member();
-		 m.setUsername("DDaD");
-		 m.setPassword("bbbb");
-		 
+
 		try {
 			TableResult result = Querify.getInstance("cec").query("SELECT * FROM `crazy-english-community.cec.Member` LIMIT 1000");
 			for (FieldValueList row :result.iterateAll()) {

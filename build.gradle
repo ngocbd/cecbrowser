@@ -7,8 +7,12 @@
  */
 
 // Apply the java-library plugin to add support for Java Library
-apply plugin: 'java-library'
 
+
+
+
+apply plugin: 'application'
+mainClassName='net.cec.controller.Application'
 // In this section you declare where to find the dependencies of your project
 repositories {
     // Use jcenter for resolving your dependencies.
@@ -34,4 +38,7 @@ dependencies {
 
     
 }
+test.scanForTestClasses = false
+
+
 

@@ -20,7 +20,7 @@ import net.cec.entity.Member;
 
 import org.jsoup.Jsoup;
 
-public class PostData {
+public class PostCrawler {
 	public static void main(String[] args) {
 		while (true) {
 
