@@ -20,7 +20,7 @@ import net.cec.entity.Member;
 
 import org.jsoup.Jsoup;
 
-public class PostCrawler {
+public class PostCrawler extends Thread{
 	public static void main(String[] args) {
 		while (true) {
 
