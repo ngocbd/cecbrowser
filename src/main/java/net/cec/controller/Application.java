@@ -1,10 +1,16 @@
 package net.cec.controller;
 
+import com.googlecode.objectify.ObjectifyService;
+
+import net.cec.entity.Member;
+
 public class Application {
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		System.out.println("aaaa");
+		ObjectifyService.init();
+		ObjectifyService.register(Member.class);
+		ObjectifyService.begin();
+		
 		
 		
 	}
