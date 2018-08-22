@@ -161,21 +161,23 @@ public class Querify {
 	public static void main(String[] args) {
 
 
-		try {
-			TableResult result = Querify.getInstance("cec").query("SELECT * FROM `crazy-english-community.cec.Member` LIMIT 1000");
-			for (FieldValueList row :result.iterateAll()) {
-				
-		        System.out.println(row.get("password"));
-		      }
-
-
-		} catch (JobException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+//		try {
+//			TableResult result = Querify.getInstance("cec").query("SELECT * FROM `crazy-english-community.cec.Member` LIMIT 1000");
+//			for (FieldValueList row :result.iterateAll()) {
+//				
+//		        System.out.println(row.get("password"));
+//		      }
+//
+//
+//		} catch (JobException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		} catch (InterruptedException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+		
+		
 		
 
 	}

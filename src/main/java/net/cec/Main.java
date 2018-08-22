@@ -101,60 +101,63 @@ public class Main {
 //        });
 //	   System.out.println(key.getName());
 	    //timestampContent
+//		
+//		String topicName = "projects/crazy-english-community/topics/message";
+//		ProjectTopicName topic = ProjectTopicName.of("crazy-english-community", topicName);
+//		
+//		List<ApiFuture<String>> messageIdFutures = new ArrayList<>();
+//		 Publisher publisher = null;
+//	    try {
+//	      // Create a publisher instance with default settings bound to the topic
+//	      try {
+//			publisher = Publisher.newBuilder(topicName).build();
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//
+//	      List<String> messages = Arrays.asList("first message", "second message");
+//
+//	      // schedule publishing one message at a time : messages get automatically batched
+//	      for (String message : messages) {
+//	        ByteString data = ByteString.copyFromUtf8(message);
+//	        PubsubMessage pubsubMessage = PubsubMessage.newBuilder().setData(data).build();
+//
+//	        // Once published, returns a server-assigned message id (unique within the topic)
+//	        ApiFuture<String> messageIdFuture = publisher.publish(pubsubMessage);
+//	        messageIdFutures.add(messageIdFuture);
+//	      }
+//	    } finally {
+//	      // wait on any pending publish requests.
+//	      List<String> messageIds ;
+//		try {
+//			messageIds = ApiFutures.allAsList(messageIdFutures).get();
+//			 for (String messageId : messageIds) {
+//			        System.out.println("published with message ID: " + messageId);
+//			      }
+//
+//			      if (publisher != null) {
+//			        // When finished with the publisher, shutdown to free up resources.
+//			        try {
+//						publisher.shutdown();
+//					} catch (Exception e) {
+//						// TODO Auto-generated catch block
+//						e.printStackTrace();
+//					}
+//			      }
+//		} catch (InterruptedException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		} catch (ExecutionException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//
+//	     
+//	    }
 		
-		String topicName = "projects/crazy-english-community/topics/post";
-		ProjectTopicName topic = ProjectTopicName.of("crazy-english-community", topicName);
 		
-		List<ApiFuture<String>> messageIdFutures = new ArrayList<>();
-		 Publisher publisher = null;
-	    try {
-	      // Create a publisher instance with default settings bound to the topic
-	      try {
-			publisher = Publisher.newBuilder(topicName).build();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-	      List<String> messages = Arrays.asList("first message", "second message");
-
-	      // schedule publishing one message at a time : messages get automatically batched
-	      for (String message : messages) {
-	        ByteString data = ByteString.copyFromUtf8(message);
-	        PubsubMessage pubsubMessage = PubsubMessage.newBuilder().setData(data).build();
-
-	        // Once published, returns a server-assigned message id (unique within the topic)
-	        ApiFuture<String> messageIdFuture = publisher.publish(pubsubMessage);
-	        messageIdFutures.add(messageIdFuture);
-	      }
-	    } finally {
-	      // wait on any pending publish requests.
-	      List<String> messageIds ;
-		try {
-			messageIds = ApiFutures.allAsList(messageIdFutures).get();
-			 for (String messageId : messageIds) {
-			        System.out.println("published with message ID: " + messageId);
-			      }
-
-			      if (publisher != null) {
-			        // When finished with the publisher, shutdown to free up resources.
-			        try {
-						publisher.shutdown();
-					} catch (Exception e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-			      }
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (ExecutionException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-	     
-	    }
+		
 	    
 	    
 	}

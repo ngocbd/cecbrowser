@@ -4,6 +4,8 @@ package net.cec.controller;
 import static com.googlecode.objectify.ObjectifyService.ofy;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Logger;
 
 import org.jsoup.Connection.Method;
@@ -13,6 +15,7 @@ import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 
 import com.fcs.Utils;
 import com.googlecode.objectify.Key;
@@ -28,18 +31,22 @@ public class PostCrawler extends Thread {
 		String urlFB = "http://facebook.com";
 		String email = Secret.email;
 		String password = Secret.password;
-
-		WebDriver driver = new ChromeDriver();
+		Map<String, Object> prefs = new HashMap<String, Object>();
+		prefs.put("profile.default_content_setting_values.notifications", 2);
+		ChromeOptions options = new ChromeOptions();
+		options.setExperimentalOption("prefs", prefs);
+		WebDriver driver = new ChromeDriver(options);
+		
 		driver.get(urlFB);
 		// driver.manage().window().maximize();
 		driver.findElement(By.id("email")).sendKeys(email);
 		driver.findElement(By.id("pass")).sendKeys(password + Keys.ENTER);
-
+		ObjectifyService.init();
+		ObjectifyService.register(Member.class);
+		ObjectifyService.begin();
 		while (true) {
 			
-			ObjectifyService.init();
-			ObjectifyService.register(Member.class);
-			ObjectifyService.begin();
+			
 
 			String url;
 			try {
@@ -50,41 +57,59 @@ public class PostCrawler extends Thread {
 					logger.warning("get url :"+url);
 					driver.get(url);
 					
-					
+					try {
+						WebElement userContentWrapper = driver.findElement(By.className("userContentWrapper"));
 
-					WebElement userContentWrapper = driver.findElement(By.className("userContentWrapper"));
+						WebElement userProfileElement = userContentWrapper.findElement(By.cssSelector(".fwb a"));
 
-					WebElement userProfileElement = userContentWrapper.findElement(By.cssSelector(".fwb a"));
+						String name = userProfileElement.getText();
 
-					String name = userProfileElement.getText();
+						String facebookID = Utils.splitQuery(userProfileElement.getAttribute("ajaxify")).get("member_id");
 
-					String facebookID = Utils.splitQuery(userProfileElement.getAttribute("ajaxify")).get("member_id");
+						System.out.println(facebookID);
 
-					System.out.println(facebookID);
+						Key<Member> key = Key.create(Member.class, facebookID);
 
-					Key<Member> key = Key.create(Member.class, facebookID);
-
-					Member member = ofy().load().key(key).now();
-					if (member == null) {
-						member = new Member(facebookID);
-						member.setName(name);
+						Member member = ofy().load().key(key).now();
+						if (member == null) {
+							member = new Member(facebookID);
+							member.setName(name);
+							
+							ofy().save().entities(member);
+							
+							
+						}
 						
-						ofy().save().entities(member);
+						
+						String postID= url.replaceAll("https://www.facebook.com/groups/cec.edu.vn/permalink/", "").replaceAll("/", "");
+						
+						Jsoup.connect("https://crazy-english-community.appspot.com/api/submit/post?id="+postID+"&posterid="+facebookID).ignoreContentType(true)
+						.method(Method.GET).execute().body();
+							
+					} catch (Exception e) {
+						e.printStackTrace();
+						logger.warning(e.getMessage());
+						continue;
+						
 					}
+
+					
 					
 
 				}
-				else
-				{
-					Thread.sleep(10000);
-				}
-
+				
 			} catch (IOException e) {
-				System.out.println("Connect http://httpsns.appspot.com/queue? error.");
+				e.printStackTrace();
+				continue;
 
+			} 
+			try {
+				Thread.sleep(10000);
+				logger.warning("Sleep..");
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
+				continue;
 			}
 
 		}

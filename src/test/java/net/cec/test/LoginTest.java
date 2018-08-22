@@ -2,6 +2,7 @@ package net.cec.test;
 
 import static org.junit.Assert.*;
 
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.By;
@@ -31,6 +32,12 @@ public class LoginTest {
 		driver.findElement(By.id("pass")).sendKeys(password + Keys.ENTER);
 		WebDriverWait wait = new WebDriverWait(driver, 500);
 		assertEquals("https://www.facebook.com/", driver.getCurrentUrl());
+		
+		
+	}
+	public static void main(String[] args) {
+		String s= "https://www.facebook.com/media/set/?set\\u003dpcb.2129681200638258\\u0026type\\u003d1";
+		System.out.println(StringEscapeUtils.unescapeEcmaScript(s));
 		
 	}
 
