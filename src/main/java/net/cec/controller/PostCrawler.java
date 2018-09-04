@@ -1,6 +1,5 @@
 package net.cec.controller;
 
-
 import static com.googlecode.objectify.ObjectifyService.ofy;
 
 import java.io.IOException;
@@ -26,7 +25,7 @@ import net.cec.entity.Member;
 
 public class PostCrawler extends Thread {
 	static Logger logger = Logger.getLogger(PostCrawler.class.getName());
-	
+
 	public static void main(String[] args) {
 		String urlFB = "http://facebook.com";
 		String email = Secret.email;
@@ -36,7 +35,7 @@ public class PostCrawler extends Thread {
 		ChromeOptions options = new ChromeOptions();
 		options.setExperimentalOption("prefs", prefs);
 		WebDriver driver = new ChromeDriver(options);
-		
+
 		driver.get(urlFB);
 		// driver.manage().window().maximize();
 		driver.findElement(By.id("email")).sendKeys(email);
@@ -45,8 +44,6 @@ public class PostCrawler extends Thread {
 		ObjectifyService.register(Member.class);
 		ObjectifyService.begin();
 		while (true) {
-			
-			
 
 			String url;
 			try {
@@ -54,9 +51,9 @@ public class PostCrawler extends Thread {
 						.method(Method.GET).execute().body();
 				logger.warning(url);
 				if (!url.trim().equals("Queue cecurl is empty")) {
-					logger.warning("get url :"+url);
+					logger.warning("get url :" + url);
 					driver.get(url);
-					
+
 					try {
 						WebElement userContentWrapper = driver.findElement(By.className("userContentWrapper"));
 
@@ -64,7 +61,8 @@ public class PostCrawler extends Thread {
 
 						String name = userProfileElement.getText();
 
-						String facebookID = Utils.splitQuery(userProfileElement.getAttribute("ajaxify")).get("member_id");
+						String facebookID = Utils.splitQuery(userProfileElement.getAttribute("ajaxify"))
+								.get("member_id");
 
 						System.out.println(facebookID);
 
@@ -74,41 +72,46 @@ public class PostCrawler extends Thread {
 						if (member == null) {
 							member = new Member(facebookID);
 							member.setName(name);
-							
+
 							ofy().save().entities(member);
-							
-							
+
 						}
-						
-						
-						String postID= url.replaceAll("https://www.facebook.com/groups/cec.edu.vn/permalink/", "").replaceAll("/", "");
-						
-						Jsoup.connect("https://crazy-english-community.appspot.com/api/submit/post?id="+postID+"&posterid="+facebookID).ignoreContentType(true)
-						.method(Method.GET).execute().body();
-							
+
+						String postID = url.replaceAll("https://www.facebook.com/groups/cec.edu.vn/permalink/", "")
+								.replaceAll("/", "");
+
+						Jsoup.connect("https://crazy-english-community.appspot.com/api/submit/post?id=" + postID
+								+ "&posterid=" + facebookID).ignoreContentType(true).method(Method.GET).execute()
+								.body();
+
 					} catch (Exception e) {
 						e.printStackTrace();
 						logger.warning(e.getMessage());
 						continue;
-						
+
+					}
+					finally
+					{
+						continue;
 					}
 
-					
-					
-
 				}
-				
+
 			} catch (IOException e) {
 				e.printStackTrace();
 				continue;
 
-			} 
+			}
 			try {
 				Thread.sleep(10000);
 				logger.warning("Sleep..");
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
+				continue;
+			}
+			finally
+			{
 				continue;
 			}
 
