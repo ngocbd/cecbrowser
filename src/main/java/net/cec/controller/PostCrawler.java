@@ -104,6 +104,7 @@ public class PostCrawler extends Thread {
 			}
 			try {
 				Thread.sleep(10000);
+				Jsoup.connect("https://cec.net.vn/cron/crawl/links").get();
 				logger.warning("Sleep..");
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
