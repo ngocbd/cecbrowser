@@ -6,6 +6,8 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.jsoup.Connection.Method;
 import org.jsoup.Jsoup;
@@ -21,12 +23,25 @@ import com.googlecode.objectify.Key;
 import com.googlecode.objectify.ObjectifyService;
 
 import net.cec.Secret;
+import net.cec.entities.MemberPost;
 import net.cec.entity.Member;
 
 public class PostCrawler extends Thread {
 	static Logger logger = Logger.getLogger(PostCrawler.class.getName());
 
 	public static void main(String[] args) {
+		while (1 == 1) {
+			try {
+				PostCrawler postCrawler = new PostCrawler();
+				postCrawler.run();
+			} catch (Exception e) {
+				// TODO: handle exception
+				e.printStackTrace();
+			}
+		}
+	}
+
+	public void run() {
 		String urlFB = "http://facebook.com";
 		String email = Secret.email;
 		String password = Secret.password;
@@ -42,6 +57,7 @@ public class PostCrawler extends Thread {
 		driver.findElement(By.id("pass")).sendKeys(password + Keys.ENTER);
 		ObjectifyService.init();
 		ObjectifyService.register(Member.class);
+		ObjectifyService.register(MemberPost.class);
 		ObjectifyService.begin();
 		while (true) {
 
@@ -51,6 +67,31 @@ public class PostCrawler extends Thread {
 						.method(Method.GET).execute().body();
 				logger.warning(url);
 				if (!url.trim().equals("Queue cecurl is empty")) {
+					//https://www.facebook.com/groups/cec.edu.vn/permalink/2150321318574246/
+					//1784461175160264_2134731663466545
+					
+					Matcher matcher = Pattern.compile("(\\d+)").matcher(url);
+					
+					 int count = 0;
+					 if (matcher.find()) {
+						 
+						 
+						 String postid= "1784461175160264_"+matcher.group(1);
+						 MemberPost memberPost = ofy().load().type(MemberPost.class).id(postid).now();
+						 if(memberPost!=null)
+						 {
+							 
+							 System.out.println("Post "+postid+" already exists ");
+							 logger.warning("Post "+postid+" already exists ");
+							 continue;
+						 }
+						
+						}
+					 else
+					 {
+						 continue;
+					 }
+					
 					logger.warning("get url :" + url);
 					driver.get(url);
 
@@ -65,6 +106,7 @@ public class PostCrawler extends Thread {
 								.get("member_id");
 
 						System.out.println(facebookID);
+						
 
 						Key<Member> key = Key.create(Member.class, facebookID);
 
@@ -89,9 +131,7 @@ public class PostCrawler extends Thread {
 						logger.warning(e.getMessage());
 						continue;
 
-					}
-					finally
-					{
+					} finally {
 						continue;
 					}
 
@@ -110,9 +150,7 @@ public class PostCrawler extends Thread {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 				continue;
-			}
-			finally
-			{
+			} finally {
 				continue;
 			}
 

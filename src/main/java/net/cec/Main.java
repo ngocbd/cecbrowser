@@ -1,6 +1,8 @@
 package net.cec;
 
 
+import static com.googlecode.objectify.ObjectifyService.ofy;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -23,6 +25,15 @@ import com.google.protobuf.ByteString;
 import com.google.pubsub.v1.ProjectTopicName;
 import com.google.pubsub.v1.PubsubMessage;
 import com.googlecode.objectify.*;
+import com.restfb.Connection;
+import com.restfb.DefaultFacebookClient;
+import com.restfb.FacebookClient;
+import com.restfb.Parameter;
+import com.restfb.Version;
+import com.restfb.json.JsonObject;
+
+import net.cec.entities.MemberPost;
+
 
 public class Main {
 
@@ -157,8 +168,37 @@ public class Main {
 //	    }
 		
 		
+		String accessToken = "EAAS2fFjpbzABAMwwxGgQczR3g4AlYoq1S3vKqZCgvqKvOUWswTavVtw7jkfPeA02NV9KNMn77ZAtj1t4ZBR1x2LLxUSbbc7J2Kjdw8dGFBMnnkGLRq1Hg4Xjx6PmHDvpsDZAeLpHBGI8rjzIg4iqZBDqWZABWdqhG0S2kQIqVlRAZDZD";
+		FacebookClient fbClient = new DefaultFacebookClient(accessToken,
+				Version.LATEST);
 		
-	    
+		//https://www.facebook.com/mon.mon.8997/videos/pcb.2129681200638258/950382381836554/?type=3&ifg=1
+		//https://www.facebook.com/media/set/?set\u003dpcb.2129681200638258\u0026type\u003d1
+		Connection<JsonObject> listPost = fbClient
+				.fetchConnection(
+						 "1784461175160264/feed",
+						JsonObject.class,
+						Parameter.with("limit",1000),
+						Parameter
+								.with("fields",
+										"id"));
+//		response.getWriter().println("id: "+listPost.getData().get(0).toString());
+		String links = "";
+		MemberPost memberPost = null;
+		for(int i=0;i<listPost.getData().size();i++)
+		{
+			String postGroupId = listPost.getData().get(i).toString();
+			String postId = postGroupId.substring(postGroupId.indexOf("_")+1, postGroupId.length()-2);
+//			System.out.println("Id "+(i+1)+" of Post: "+ postId);
+//			Key<MemberPost> key = Key.create(MemberPost.class, postId);
+//			memberPost = ofy().load().key(key).now();
+//			if(memberPost==null)
+//			{
+				links += "https://www.facebook.com/groups/cec.edu.vn/permalink/"+postId+"/\n";
+//			}
+			//create string 100links
+		}
+	    System.out.println(links);
 	    
 	}
 

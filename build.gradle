@@ -35,6 +35,9 @@ dependencies {
     implementation 'org.jsoup:jsoup:1.11.3'
     implementation 'com.google.cloud:google-cloud-pubsub:1.35.0'
     // https://mvnrepository.com/artifact/com.google.cloud/google-cloud-bigquery
+    // https://mvnrepository.com/artifact/com.restfb/restfb
+	implementation group: 'com.restfb', name: 'restfb', version: '2.9.0'
+    
 
     
 }
