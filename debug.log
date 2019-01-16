@@ -1,0 +1,2 @@
+[0114/061434.752:ERROR:file_io_win.cc(170)] CreateFile C:\Users\DaiKa\AppData\Local\Temp\scoped_dir31540_22523\Crashpad\reports\160167ef-94a2-412a-a2e9-569857766f28.dmp: The system cannot find the path specified. (0x3)
+[0114/061434.753:ERROR:crash_report_exception_handler.cc(97)] PrepareNewCrashReport failed

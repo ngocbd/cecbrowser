@@ -14,6 +14,7 @@ public class Utils {
 	        int idx = pair.indexOf("=");
 	        query_pairs.put(URLDecoder.decode(pair.substring(0, idx), "UTF-8"), URLDecoder.decode(pair.substring(idx + 1), "UTF-8"));
 	    }
+	    //System.out.println(query_pairs);
 	    return query_pairs;
 	}
 }

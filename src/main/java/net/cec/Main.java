@@ -6,10 +6,14 @@ import static com.googlecode.objectify.ObjectifyService.ofy;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.LinkedBlockingQueue;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
@@ -168,38 +172,67 @@ public class Main {
 //	    }
 		
 		
-		String accessToken = "EAAS2fFjpbzABAMwwxGgQczR3g4AlYoq1S3vKqZCgvqKvOUWswTavVtw7jkfPeA02NV9KNMn77ZAtj1t4ZBR1x2LLxUSbbc7J2Kjdw8dGFBMnnkGLRq1Hg4Xjx6PmHDvpsDZAeLpHBGI8rjzIg4iqZBDqWZABWdqhG0S2kQIqVlRAZDZD";
-		FacebookClient fbClient = new DefaultFacebookClient(accessToken,
-				Version.LATEST);
+//		String accessToken = "EAAS2fFjpbzABAMwwxGgQczR3g4AlYoq1S3vKqZCgvqKvOUWswTavVtw7jkfPeA02NV9KNMn77ZAtj1t4ZBR1x2LLxUSbbc7J2Kjdw8dGFBMnnkGLRq1Hg4Xjx6PmHDvpsDZAeLpHBGI8rjzIg4iqZBDqWZABWdqhG0S2kQIqVlRAZDZD";
+//		FacebookClient fbClient = new DefaultFacebookClient(accessToken,
+//				Version.LATEST);
+//		
+//		//https://www.facebook.com/mon.mon.8997/videos/pcb.2129681200638258/950382381836554/?type=3&ifg=1
+//		//https://www.facebook.com/media/set/?set\u003dpcb.2129681200638258\u0026type\u003d1
+//		Connection<JsonObject> listPost = fbClient
+//				.fetchConnection(
+//						 "1784461175160264/feed",
+//						JsonObject.class,
+//						Parameter.with("limit",1000),
+//						Parameter
+//								.with("fields",
+//										"id"));
+////		response.getWriter().println("id: "+listPost.getData().get(0).toString());
+//		String links = "";
+//		MemberPost memberPost = null;
+//		for(int i=0;i<listPost.getData().size();i++)
+//		{
+//			String postGroupId = listPost.getData().get(i).toString();
+//			String postId = postGroupId.substring(postGroupId.indexOf("_")+1, postGroupId.length()-2);
+////			System.out.println("Id "+(i+1)+" of Post: "+ postId);
+////			Key<MemberPost> key = Key.create(MemberPost.class, postId);
+////			memberPost = ofy().load().key(key).now();
+////			if(memberPost==null)
+////			{
+//				links += "https://www.facebook.com/groups/cec.edu.vn/permalink/"+postId+"/\n";
+////			}
+//			//create string 100links
+//		}
+//	    System.out.println(links);
 		
-		//https://www.facebook.com/mon.mon.8997/videos/pcb.2129681200638258/950382381836554/?type=3&ifg=1
-		//https://www.facebook.com/media/set/?set\u003dpcb.2129681200638258\u0026type\u003d1
-		Connection<JsonObject> listPost = fbClient
-				.fetchConnection(
-						 "1784461175160264/feed",
-						JsonObject.class,
-						Parameter.with("limit",1000),
-						Parameter
-								.with("fields",
-										"id"));
-//		response.getWriter().println("id: "+listPost.getData().get(0).toString());
-		String links = "";
-		MemberPost memberPost = null;
-		for(int i=0;i<listPost.getData().size();i++)
-		{
-			String postGroupId = listPost.getData().get(i).toString();
-			String postId = postGroupId.substring(postGroupId.indexOf("_")+1, postGroupId.length()-2);
-//			System.out.println("Id "+(i+1)+" of Post: "+ postId);
-//			Key<MemberPost> key = Key.create(MemberPost.class, postId);
-//			memberPost = ofy().load().key(key).now();
-//			if(memberPost==null)
-//			{
-				links += "https://www.facebook.com/groups/cec.edu.vn/permalink/"+postId+"/\n";
-//			}
-			//create string 100links
+		
+//		String content = "Day 89/90: Just keep being yourself";
+//		Pattern p = Pattern.compile("(\\d+)(/|\\.)(\\d+)");
+//		Matcher m = p.matcher(content);
+//		if (m.find()) {
+//			
+//		
+//			String spliter[] = m.group().split("/|\\.");
+//			int current = Integer.parseInt(spliter[0]);
+//			int total = Integer.parseInt(spliter[1]);
+//			
+//			String msg = "Chúc mừng bạn đã hoàn thành video số "+current+" trong hành trình "+total+" ngày nói tiếng anh liên tục. Tiếp tục cố gắng nhé, mình nóng lòng muốn xem bài tiếp theo của bạn";
+//			
+//		  System.out.println(msg);
+//		  
+//		}
+		
+		
+		String str="#important thing in #HANHTRINH90NGAY #cec #7 #& ";
+		Pattern MY_PATTERN = Pattern.compile("#(\\S+)");
+		Matcher mat = MY_PATTERN.matcher(str);
+		HashSet<String> strs=new HashSet<String>();
+		while (mat.find()) {
+		  //System.out.println(mat.group(1));
+		  strs.add(mat.group(1));
 		}
-	    System.out.println(links);
-	    
+		
+		System.out.println(strs.toString());
+//	    
 	}
 
 }
