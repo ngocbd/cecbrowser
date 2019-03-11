@@ -12,6 +12,7 @@ import java.util.regex.Pattern;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
+import org.openqa.selenium.UnhandledAlertException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -41,7 +42,9 @@ public class GroupVideoWatcher extends Thread {
 		String password = Secret.password;
 		Map<String, Object> prefs = new HashMap<String, Object>();
 		prefs.put("profile.default_content_setting_values.notifications", 2);
+		
 		ChromeOptions options = new ChromeOptions();
+		
 		options.setExperimentalOption("prefs", prefs);
 		WebDriver driver = new ChromeDriver(options);
 
@@ -63,6 +66,10 @@ public class GroupVideoWatcher extends Thread {
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
+				}
+				catch(UnhandledAlertException uae)
+				{
+					driver.switchTo().alert().accept();
 				}
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
@@ -100,8 +107,39 @@ public class GroupVideoWatcher extends Thread {
 				"%s quá hay mình đã đăng bài viết của bạn tại https://cec.net.vn/p/%s/",
 				"%s Quá tuyệt mình đã đăng bài viết của bạn tại https://cec.net.vn/p/%s/",
 				"Quá tuyệt %s mình đã đăng bài viết của bạn tại https://cec.net.vn/p/%s/",
-				"%s cố gắng lên, mình tự hào về bạn!!!  mình đã đăng bài viết của bạn tại https://cec.net.vn/p/%s/"
-
+				"%s cố gắng lên, mình tự hào về bạn!!!  mình đã đăng bài viết của bạn tại https://cec.net.vn/p/%s/",
+				"%s phát âm của bạn thật tuyệt vời . Mình đã đăng bài viết của bạn tại: https://cec.net.vn/p/%s/",
+				"%s Giọng nói của bạn thật quyến rũ . Mình đã đăng bài viết của bạn tại: https://cec.net.vn/p/%s/",
+				"%s Wow, thật bất ngờ . Bạn tiến bộ nhanh quá. Để theo dõi sự tiến bộ hàng ngày của mk, bạn truy cập vào link này nhé: https://cec.net.vn/p/%s/",
+				"%s ngữ điệu của bạn thật tuyệt vời, tiếp tục luyện tập nhé . Mình đã đăng bài viết của bạn tại: https://cec.net.vn/p/%s/",
+				"%s you make me so proud of you and how far you have come in conquering English. I love seeing your video each day. This is another awesome video. Click here to follow your progress : https://cec.net.vn/p/%s/",
+				 "%s this is an amazing video. Your English pronunciations are outstanding. Click here to follow your progress: https://cec.net.vn/p/%s/",
+				 "%s you did an awesome job on this video! I'm so proud of you. Keep up the great job. Click here to follow your progress : https://cec.net.vn/p/%s/",
+				 "%s you are making progress! Keep on practicing. Your English pronunciations sound great, i'm so proud of you. Click here to follow your progress : https://cec.net.vn/p/%s/",
+				 "%s, bạn nói hay quá <3. Để tiện theo dõi, bài của bạn được đăng ở https://cec.net.vn/p/%s/",
+				 "%s, bạn nói quá hay :-*. Hãy xem lại bài của mình trên website của group chúng ta nhé: https://cec.net.vn/p/%s/",
+				 "%s, Great <3. Mình đã đăng lại bài của bạn trên group của chúng ta: https://cec.net.vn/p/%s/",
+				 "Bạn nói rất tốt, %s. Mình đã đăng bài của bạn trên https://cec.net.vn/p/%s/",
+				 "Bạn nói hay quá, %s. Mình đã up bài của bạn lên https://cec.net.vn/p/%s/ rồi nhé",
+				 "Quá tuyệt, %s ạ. Bài của bạn, mình đã đăng lên https://cec.net.vn/p/%s/",
+				 "Tiếp tục phát huy nhé, %s. Hãy theo dõi sự tiến bộ của bạn trên này nhé: https://cec.net.vn/p/%s/",
+				 "Bạn thật tuyệt vời, %s ạ. Bài của bạn đã được đăng trên https://cec.net.vn/p/%s/",
+				 "Thật tuyệt vời không thể tin được %s, mình đã phải đăng nhập để like cho bạn .Video của bạn được mình cất ở https://cec.net.vn/p/%s/ nhé ! ",
+				 "%s Love this video.You have such an amazing speaking voice! i love hearing that self- confidence and enthusiasm in your awesome speaking voice. Click here to follow your progress : https://cec.net.vn/p/%s/",
+				 "%s Good Job on this video about progress! I'm so proud of you. Keep up the great work. This video is outstanding. Click here to follow your progress : https://cec.net.vn/p/%s/",
+				 "%s Now that is an awesome video ! I am so proud of you! Love this video https://cec.net.vn/p/%s/",
+				 "%s Such an amazing video! You are so awesome!! I am so proud of you. Love all that happy energy and vibes that you bring to your videos! https://cec.net.vn/p/%s/",
+				 "%s When you make a video, it is definitely amazing. Awesome job!! https://cec.net.vn/p/%s/",
+				 "%s Awesome job on this video. your English pronunciations are outstanding. i hope we see you doing in the teaching field in the future. Click here to follow your progress : https://cec.net.vn/p/%s/",
+				 "%s This is an outstanding video! I always love hearing your videos because you are so skilled in English conversations. I'm so pround of you. keep up the great work. You did an awesome job . Click here to follow your progress : https://cec.net.vn/p/%s/",
+				 "%s The one video I always look forward to seeing. You are do awesome with English. I'm so proud of you. i love your awesome speaking voice and your outstanding English pronunciations . Click here to follow your progress : https://cec.net.vn/p/%s/"
+				 
+				
+		};
+		
+		String[] commentRepoContext = {
+				"Mình luôn theo dõi hành trình của bạn. Cố lên nhé chỉ còn %s nữa thôi ."
+				
 		};
 		String post_id = mp.getId().replaceAll("1784461175160264_", "");
 		int idx = new Random().nextInt(commentRepo.length);
@@ -137,17 +175,20 @@ public class GroupVideoWatcher extends Thread {
 			e.printStackTrace();
 		}
 		currentElement.submit();
-
+		System.out.println("Find lesson string ... "+mp.getContent().toLowerCase().contains("les"));
 		if (mp.getContent().toLowerCase().contains("les")) {
+			
 			Pattern p = Pattern.compile("(\\d+)");
 			Matcher m = p.matcher(mp.getContent().toLowerCase());
 			if (m.find()) {
+			
 				System.out.println(m.group());
 				int lesson = Integer.parseInt(m.group());
+				System.out.println("Find lesson number :  "+lesson);
 				lesson++;
 				String validate = MD5(lesson + mp.getPosterId());
 				messengerNextLesson(driver, mp.getPosterId(),
-						"Chào bạn đây là link bài tiếp theo : https://cec.net.vn/lesson/" + lesson + "?v=" + validate+"&me="+mp.getPosterId());
+						"Chào "+mv.getPosterName()+" đây là link bài tiếp theo : https://cec.net.vn/lesson/" + lesson + "?v=" + validate+"&me="+mp.getPosterId());
 			}
 
 		}
@@ -159,9 +200,15 @@ public class GroupVideoWatcher extends Thread {
 			String spliter[] = m.group().split("/|\\.");
 			int current = Integer.parseInt(spliter[0]);
 			int total = Integer.parseInt(spliter[1]);
-
-			String msg = "Chúc mừng bạn đã hoàn thành video số " + current + " trong hành trình " + total
-					+ " ngày nói tiếng anh liên tục. Tiếp tục cố gắng nhé, mình nóng lòng muốn xem bài tiếp theo của bạn";
+			
+			String msg = "Chúc mừng "+mv.getPosterName()+" đã hoàn thành video số " + current + " trong hành trình " + total
+					+ " ngày nói tiếng anh liên tục. Tiếp tục cố gắng nhé, mình sẽ theo dõi hành trình của bạn.";
+			
+			if(current==total)
+			{
+				msg = "Chúc mừng "+mv.getPosterName()+" đã hoàn thành hành trình " + total
+						+ " ngày nói tiếng anh liên tục. Bạn là thiên tài của mình, rất ít người làm được như bạn.Chờ bạn trong những hành trình tiếp theo";
+			}
 			messengerNextLesson(driver, mp.getPosterId(), msg);
 			System.out.println(msg);
 
@@ -285,7 +332,7 @@ public class GroupVideoWatcher extends Thread {
 
 	}
 
-	public static void findNewVideo(WebDriver driver) {
+	public static void findNewVideo(WebDriver driver) { 
 		driver.get("https://www.facebook.com/groups/cec.edu.vn/videos/");
 
 		List<WebElement> videosDiv = driver.findElements(By.className("itemsPlutoniumRedesign"));
@@ -302,7 +349,7 @@ public class GroupVideoWatcher extends Thread {
 					Object check = ofy().load().type(MemberVideo.class).id(video_id).now();
 					if (check != null) {
 						System.out.println("But it exist !!! then break  ");
-						break;
+						continue;
 					}
 					MemberVideo mv = new MemberVideo();
 					mv.setId(video_id);
